@@ -1,0 +1,1401 @@
+#LyX 1.6.9 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language russian
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family rmdefault
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language french
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Построение рекомендательной системы на основе тегов в качестве абстракции
+ над произвольным типом данных
+\end_layout
+
+\begin_layout Author
+выполнил Чеботаев А.П.
+\begin_inset Newline newline
+\end_inset
+
+научный руководитель — Бухановский А.В.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Введение
+\end_layout
+
+\begin_layout Quotation
+
+\emph on
+«Мы достигли точки критической массы, когда количество памяти, которую мы
+ экстериоризировали в книги и базы данных (перечислил несколько источников),
+ сейчас превышает количество памяти, хранящейся внутри совокупности наших
+ биологических тел.
+ Другими словами, «снаружи» памяти больше, чем существует внутри «всех нас».
+ Мы перепрограммировали свою сущность».
+
+\emph default
+ Дуглас Коупленд, «Рабы Майкрософта».
+ 
+\end_layout
+
+\begin_layout Standard
+За все время своего существования, интернет и смежные с ним комьюнити сагрегиров
+али в себе немыслимые объемы информации.
+ Для того чтобы проще ориентироваться в потоке этой информации разработчики
+ придумывают разнообразные средства поиска и фильтрации информации.
+\end_layout
+
+\begin_layout Standard
+Первым шагом в организации глобального информационного пространства стало
+ создание поисковых систем.
+ Первой такой системой стал Wandex в 1993 году.
+ После него появился Aliweb, работающий и по сей день.
+ Прошло около пятнадцати лет и поисковые системы настолько плотно вошли
+ в жизнь, что в речи стали появляться глаголы, образованные от названий
+ поисковых систем, их стали упоминать в литературе и кино.
+\end_layout
+
+\begin_layout Standard
+Поисковые системы позволяют найти страницы (а в последнее время узкоспециализиро
+ванную информацию: музыку, картинки, товары, магазины, научные статьи) по
+ ключевым словам.
+ Они помогают пользователю найти то, о существовании чего он уже знает.
+ Ситуация сильно осложняется, когда пользователь не можете заранее определить
+ ключевые слова для поиска, потому что не обладает конкретной информацией
+ о том, что хочет найти.
+\end_layout
+
+\begin_layout Standard
+К 90-м годам интернет достаточно наполнился всевозможным содержимым, чтобы
+ пользователи озадачились новым вопросом – «я хочу найти то, что мне интересно,
+ но не знаю что именно», на который поисковая система не спосбна ответить.
+ Как раз в этот момент начинают развиваться рекомендательные системы.
+ Они берут за основу, имеющуюся у них, информацию о пользователе и предлагают
+ ему то, что возможно его заинтересует.
+\end_layout
+
+\begin_layout Standard
+С момента появления первых работ по коллаборативной фильтрации в середине
+ 1990-х годов, рекомендательные системы стали объектом пристального научного
+ внимания.
+ В течение последнего десятилетия была проделана большая работа как теоретическо
+го, так и прикладного характера, посвященная развитию рекомендательных систем.
+ В настоящее время проблема рекомендательных систем сохраняет к себе большой
+ интерес, так как в этой области остается много задач, решение которых сулит
+ множество возможностей практического применения, что должно помочь пользователя
+м справляться с громадным объемом информации, а также снабдить их инструментами
+ выработки персонифицированных рекомендаций.
+ Примером конкретного применения рекомендательных систем может служить система
+ рекомендаций книг, CD и других товоров на Amazon.com 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "amazon"
+
+\end_inset
+
+, фильмов на MovieLens 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "movielens"
+
+\end_inset
+
+, новостей на VERSIFI Technologies (бывшем AdaptiveInfo.com) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "versifi"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Рекомендательные системы
+\end_layout
+
+\begin_layout Standard
+В данной главе рассматриваются виды рекомендательных систем, их цели и задачи.
+\end_layout
+
+\begin_layout Subsection
+Ухудшающийся отбор в культуре
+\end_layout
+
+\begin_layout Standard
+В последнее время все чаще наблюдаются процессы «ухудшающего отбор в культуре».
+ Возникновение таких процессов описал Джордж Акерлоф в 1970 году 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "akerlof"
+
+\end_inset
+
+.
+ За объяснение этих процессов он получил Нобелевскую премию в 2001 году.
+\end_layout
+
+\begin_layout Standard
+Суть их заключается в том, что потребитель обладает меньшей информацией
+ о продукте по сравнению с продавцом.
+ Акерлоф рассматривал вторичный рынок автомобильной промышленности, он продемонс
+трировал, что происходит, если на рынке отсутствует честное экспертное мнение.
+ Продавать старые, отработавшие свое машины, под видом новых куда более
+ выгодно, чем новые, а неопытный потребитель не в состоянии отличить приличный
+ автомобиль от плохого и не готов платить справедливую цену за первый.
+ В итоге рынок разрушается на нем остаются только плохие машины, которые
+ Акерлоф называл «лимонками».
+ По той же схеме развивается принцип ухудшающего отбора на рынках культурных
+ продуктов, где автор обязан заплатить за товар, не зная, насколько он ему
+ понравится, а продавец способен его обмануть, используя различные маркетинговые
+ технологии.
+ Из экономических соображений качественный товар требует больших затрат,
+ поэтому производители предпочитают незначительные увеличения бюджета маркетинго
+вых акций увеличениям затрат на производство.
+\end_layout
+
+\begin_layout Subsection
+Цель и задачи рекомендательных систем
+\end_layout
+
+\begin_layout Standard
+Основная цель рекомендательные системы – решить проблему ухудшающего отбора
+ в культуре.
+ Иными словами, предоставить пользователю независимую 7 экспертную оценку
+ о продукте, который заинтересует его, или составить предположительное мнение
+ пользователя обо всех имеющихся продуктах.
+ По целям рекомендательные системы можно разбить на несколько классов (на
+ основе статьи 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "evaluating-cf-rs"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Аннотация в контексте.
+
+\emph default
+ Первоначальным сценарием рекомендательных систем была фильтрация всех сообщений
+ на некотором форуме с целью принятия решение, какое из них читать.
+ Эта задача требовала сохранения порядка и контекста сообщений, и соответствующи
+м образом использовала предсказания для аннотирования сообщений в их контексте.
+ В некоторых случаях «самые плохие» сообщения отфильтровывались.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Найти хорошие объекты.
+
+\emph default
+ Это, пожалуй, является задачей большинства существующих рекомендательных
+ систем.
+ Требуется предоставить пользователю ранжированный список объектов с предполагае
+мыми оценками пользователя.
+ Во многих коммерческих системах показываются только наиболее выигрышные
+ объекты, а прогнозируемые значения оценок нет.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Найти все хорошие объекты.
+
+\emph default
+ Такая задача может быть актуальна в рекомендательной системе по безе судебных
+ дел.
+ Для юриста, ищущего прецеденты, скорее важнее не пропустить ни одного случая,
+ чем ранжировать их в нужном порядке.
+ В первую очередь такие рекомендательные системы должны гарантировать низкую
+ вероятность ошибочных заключений (минимизировать число нужных пользователю
+ заключений, но кажущихся системе бесполезными)
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Последовательность рекоммендаций
+\emph default
+ С растущим объемом музыки, доступной в интернете, растет актуальность этой
+ проблемы.
+ «Здесь возникает проблема перехода от рекомендаций одной песни к рекомендации
+ целой последовательности музыкальных композиций, которую будет приятно
+ прослушать.» 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "evaluating-cf-rs"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Только просматривание.
+
+\emph default
+ Обычно рекомендательная система оценивается на основе того, как хорошо
+ она подбирает объекты для пользователя.
+ «В беседах с пользователями MovieLens, Amazon и некоторых других сайтов
+ авторы статьи обнаружили, что многие из них пользуются РС- системой даже
+ тогда, когда у них нет намерения приобрести вещь» 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "evaluating-cf-rs"
+
+\end_inset
+
+.
+ Некоторым пользователям приятно просматривать информацию о рекомендуемых
+ объектах, я для других – это процесс познания.
+\end_layout
+
+\begin_layout Subsection
+Виды рекомендательных систем
+\end_layout
+
+\begin_layout Standard
+В самом общем виде проблема выработки рекомендаций сводится к присвоению
+ той или иной оценки товара, еще не известного потенциальному покупателю.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "overview-rs"
+
+\end_inset
+
+Очевидно, такая оценка дается исходя из анализа предшествующих предпочтений
+ данного покупателя или любой другой информации о нем, формальное описание
+ которой дано ниже.
+ После того как система предсказывает оценки для еще не известных потребителю
+ товаров, те из них, которые получают наивысшие оценки рекомендуются потенциальн
+ому потребителю.
+\end_layout
+
+\begin_layout Standard
+Формально проблема выработки рекомендаций может быть предствалена следующим
+ образом: пусть 
+\begin_inset Formula $C$
+\end_inset
+
+ — группа ( множество) всех пользователей, 
+\begin_inset Formula $S$
+\end_inset
+
+ — группа (множество) предлагаемых товаров (книг, фильмов, ресторанов и
+ т.д.).
+ Группа 
+\begin_inset Formula $S$
+\end_inset
+
+ всех возможных товаров может быть очень объемной, достигая в некоторых
+ областях сотен тысяч и даже миллионов единиц товаров (книги, CD); группа
+ пользователей также может достигать чрезвычайно больших цифр.
+ Пусть 
+\begin_inset Formula $U$
+\end_inset
+
+ – функция полезности, описывающая полезность предмета 
+\begin_inset Formula $S$
+\end_inset
+
+ для 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+
+\begin_inset Formula $C$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\noun default
+\color inherit
+, т.е.
+ 
+\begin_inset Formula $u\,-\, CхS→R$
+\end_inset
+
+, где 
+\begin_inset Formula $R$
+\end_inset
+
+ – количество заказанных единиц товара (то есть любое положительное целое
+ число в некоем ряду).
+ Тогда для каждого потребителя 
+\begin_inset Formula $c\in C$
+\end_inset
+
+ мы хотим выбрать такой товар 
+\begin_inset Formula $s'\in S$
+\end_inset
+
+, который наиболее соответствовал бы полезности потребителя.
+ Более формально
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \[
+\forall c\in C,\; s'_{c}=\arg\:\underset{s\in S}{\max}\: u(c,s)\]
+
+\end_inset
+
+В рекомендационных системах полезность того или иного товара обычно представлена
+ определенным количеством баллов, отражающих, насколько конкретному покупателю
+ понравился конкретный товар, например, Вася Пупкин дал фильму Гарри Потттер
+ 7 баллов (из 10).
+ Но как отмечалось ранее, полезность может быть произвольной функцией, включающе
+й в себя функцию прибыли.
+ В зависимости от приложения, полезность u может быть определена потребителем,
+ как это обычно бывает в системах, основывающихся на потребительской оценке,
+ или может быть вычислена программой, как в случае с функцией полезности,
+ основывающейся на прибыли.
+ Каждый участник из группы потребителей 
+\begin_inset Formula $C$
+\end_inset
+
+ может быть описан с помощью индивидуального профиля, содержащего различные
+ характеристики потребителя: возраст, пол, доход, семейное положение и т.д.
+ В самом простом случае, профиль может содержать единичную характеристику
+ – ID потребителя.
+ Или, например, в системе рекомендации фильмов, где 
+\begin_inset Formula $S$
+\end_inset
+
+ это совокупность фильмов, каждый фильм может быть представлен не только
+ своим ID, но и названием, жанром, режиссером, годом, главными актерами.
+\end_layout
+
+\begin_layout Standard
+Новые оценки еще не оцененных товаров могут быть сделаны различными способами,
+ такими как машинное самообучение, эвристическим методом, теорией аппроксимации.
+ РС различаются в подходах к анализу оценок.
+ Современная классификация делит РС на следующие категории в зависимости
+ от того, как делаются рекомендации:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Контентные рекомендации:
+\emph default
+ потребитель получит рекомендации товаров, сходных с теми, которые он выбрал
+ ранее.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Коллаборативные рекомендации:
+\emph default
+ потребителю будут предложены товары, в прошлом выбранные людьми со схожими
+ с ним вкусами и предпочтениями.
+\end_layout
+
+\begin_layout Itemize
+Рекоммендации, сочетающие в себе два предыдущих метода.
+\end_layout
+
+\begin_layout Subsubsection
+Контентные методики
+\end_layout
+
+\begin_layout Standard
+Данный подход основан на измерении похожести обектов между собой.
+ Иными словами, вывод о полезности 
+\begin_inset Formula $u(c,s)$
+\end_inset
+
+ товара s для потребителя c делается, исходя из полезности 
+\begin_inset Formula $u(c,s_{i})$
+\end_inset
+
+, присвоенной потребителем 
+\begin_inset Formula $c$
+\end_inset
+
+ товарам 
+\begin_inset Formula $s_{i}\in S$
+\end_inset
+
+ сходным с товаром 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ Например, в системе, рекомендующей фильмы, для того, чтобы рекомендовать
+ фильмы потребителю с, контентная РС пытается найти сходство между фильмами,
+ высоко оцененными потребителем ранее (общие актеры, режиссеры, жанры и
+ т.д.) И только фильмы, обладающие высокой степенью общности с предпочтениями
+ потребителя, будут рекомендованы.
+ Контентый подход рекомендательных систем основан на работах, изучающих
+ методы поиска информации 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "content-based-example-1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "content-based-example-2"
+
+\end_inset
+
+ и информационной фильтрации 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "content-based-example-3"
+
+\end_inset
+
+.
+ Так как наибольшие успехи были достигнуты в области текстового поиска и
+ фильтрации, многие современные рекомендательные системы работают с объектами,
+ содержащими текстовую информацию, таке как документы, веб страницы, сообщения
+ сети Usenet.
+\end_layout
+
+\begin_layout Standard
+Например, такой подход был реализован а рекомендательной системе PRES (сокращени
+е от Personal Recommender System, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pres"
+
+\end_inset
+
+).
+ Система PRES специализируется на рекомендациях интересных (релевантных
+ для выбранного пользователя) страниц внутри одного сайта.
+ Разделяются понятия навигационных страниц и страниц-данных.
+ (Страницы так же могут иметь смешанный тип).
+ Общая структура представлена на 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Структура-системы-PRES"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename pics/content-based.png
+	width 50page%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Структура системы PRES
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Структура-системы-PRES"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+PRES выбирает объекты, исходя из корреляции между его содержимым и профилем
+ пользователя, в котором собраны его предпочтения, что полностью противоположно
+ принципу коллаборативной фильтрации, который основывается на измерении
+ похожести пользователей между собой.
+ В ходе работы с системой измеряется заинтересованность пользователя в том
+ или ином документе, которые учитываются в его профиле.
+ Далее система подбирает наиболее релевантные документы из имеющейся коллекции,
+ основываясь на критериях, указанных в пользовательском профиле.
+\end_layout
+
+\begin_layout Standard
+Контентные методики обладают рядом проблем:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Ограниченность контентного анализа.
+
+\emph default
+ Для адекватной работы системы контент должен либо обладать формой, доступной
+ для автоматического машинного анализа, либо должен назначаться вручную.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "overview-rs"
+
+\end_inset
+
+ Системы поиска информации вполне успешно находят заданные характеристики
+ в тексте, в то время как анализ иных свойств объекта сталкивается с определенны
+ми сложностями.
+ Например, куда более трудоемким оказывается анализ мультимедийных объектов
+ (мызуки и фильмов).
+ Подобные ограничения делают малоэфективным назначения свойств вручную.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Проблема узких рекомендаций.
+
+\emph default
+ Если система рекомендует только те товары, чьи характеристики совпадают
+ с содержащимися в профиле потребителя, это означает, что он получит рекомендаци
+и только таких товаров, которые сходны с товарами, ранее уже получившими
+ его оценку.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "overview-rs"
+
+\end_inset
+
+Например, человек, никогда не имевший дела с греческой кухней, никогда не
+ получит совета посетить греческий ресторан.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Проблема нового пользователя.
+
+\emph default
+ Пользователю необходимо оценить довольно большое количество разных товаров,
+ прежде чем РС сумеет правильно понять его предпочтения и дать ему подходящие
+ рекомендации.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "overview-rs"
+
+\end_inset
+
+ Поэтому либо система не сможет выдать пользователю достаточно точные рекомендац
+ии, либо потребует от него произвести больше оценок.
+\end_layout
+
+\begin_layout Subsubsection
+Коллаборативные методики
+\end_layout
+
+\begin_layout Standard
+В создании рекомендательных систем этот подход более популярен, чем подход
+ с применением контентно-ориентированной фильтрации.
+ Основная идея данного подхода заключается в составлении рекомендаций оценок
+ для данного пользователя на основе мнения остальных.
+ Оценки других пользователей могут быть получены из их профайлов явно или
+ неявно.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Проблема нового пользователя.
+
+\emph default
+ Проблема сходна с проблемой контентных систем.
+ Чтобы делать точные рекомендации, система должна прежде всего изучить предпочте
+ния пользователя на основании данных им оценок.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "overview-rs"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Проблема нового объекта.
+
+\emph default
+ Новые товары регулярно добавляются в рекомендационные системы.
+ Коллаборативные системы при выработке рекомендаций руководствуются только
+ предпочтениями пользователей.
+ Поэтому рекомендационная система не может рекомендовать товар, пока он
+ не получит достаточное количество оценок.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "overview-rs"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Разреженность.
+
+\emph default
+ В любой рекомендательной системе, количество оценок, которые необходимо
+ предсказать, обычно намного превышает количество данных оценок.
+ Важно, чтобы система умела эффективно предвидеть оценки, исходя из небольшого
+ количества примеров.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "overview-rs"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Избирательность внимания.
+
+\emph default
+ Плотность оценок неравномерно распределена, причем эта неравномерность
+ усиливается со временем из-за того, что хорошо оцененные объекты чаще попадаютс
+я пользователям.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Холодный старт.
+
+\emph default
+ Чем больше объектов в системе, тем больше информации требуется от каждого
+ нового пользователя, чтобы выдать первую рекомендацию.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Изменчивость профиля.
+
+\emph default
+ Профиль пользователя составляется из оценок, со временем объем профиля
+ растет, а вкусы меняются.
+ Обновлять оценки для всех старых объектов затруднительно.
+\end_layout
+
+\begin_layout Subsubsection
+Выводы
+\end_layout
+
+\begin_layout Standard
+Для решения большинства из этих проблем, предлагается выделить из объектов
+ единицу смысла и использовать новое представление данных, а вместе с ним
+ и новый алгоритм для рекомендаций.
+\end_layout
+
+\begin_layout Section
+Построение РС на основе «Единиц Информации»
+\end_layout
+
+\begin_layout Standard
+В 2006 компания Netflix объявила соревнование на лучший алгоритм предсказания
+ оценки, которую зритель поставит фильму, на основе предыдущих оценок этого
+ и других зрителей.
+ Главный приз составлял $1000000, а для его получения надо было улучшить
+ их собственный алгоритм Cinematch на 10%.
+ Приз выдан команде BellKor’s Pragmatic Chaos 21 сентября 2009 года.
+\end_layout
+
+\begin_layout Standard
+Команды, занявшие первые два места использовали алгоритмы, построенные на
+ принципе коллаборативной фильтрации с использованием скрытых факторов.
+\end_layout
+
+\begin_layout Standard
+Предположим что имеется два фактора.
+ Тогда объекты и пользователей можно представить в виде векторов или точек
+ на двумерной плоскости, где каждая координата будет соответствовать степени
+ проявления каждого фактора.
+\end_layout
+
+\begin_layout Standard
+<copypast from http://ritconf.ru/2011/abstracts/807.html>
+\end_layout
+
+\begin_layout Standard
+Когда речь идет о вкусовых объектах, например кинофильмах, система работает
+ с большим множеством достаточно однородных объектов.
+ В этом случае, эффективно работает метод, уменьшающий размерность задачи,
+ который называется факторным анализом или PCA (Principal Component Analysis).
+ Профили пользователей и объектов представляются в системе как вектора фиксирова
+нной размерности.
+ Линейное пространство, в котором живут эти вектора, называется факторным.
+ Каждая его размерность отвечает за некоторое обобщенное свойство объекта
+ или соответствующее ему свойство пользователя.
+ Очередная оценка пользователя, удлиняя оценочный профиль, в то же время
+ модифицирует свойства факторного профиля.
+ Уменьшая размерность и выделяя основные свойства, PCA тем самым, уменьшает
+ содержащийся в оценках шум.
+ Работа в конечномерном линейном пространстве существенно удобней и эффективней
+ чем манипуляция профилями разнообразной длинны.
+ Но, помимо этого, факторное представление позволяет относительно легко
+ решить как давно известные задачи рекомендательного сервиса так и ряд новых.
+\end_layout
+
+\begin_layout Standard
+В задаче прогнозирования факторные профили позволяют очень быстро вычислить
+ хороший прогноз, а также, по необходимости, уточнить его, усложняя технику.
+ Для задачи поиска единомышленников факторная схема предоставляет удобные,
+ быстро вычисляемые и легко кластеризуемые способы расчета метрик-близостей.
+ Эти же метрики оказываются эффективны в задаче поиска близких объектов,
+ которые используются для навигации.
+\end_layout
+
+\begin_layout Standard
+Очень важно для системы уметь объяснить для пользователя каждую рекомендацию
+ и каждый прогноз.
+ Для вычисления персональных прогнозов и рекомендаций современная рекомендательн
+ая система привлекает большое множество высказанных мнений, поэтому точное
+ объяснение требует достаточно глубокого анализа.
+ Полезной задачей оказывается уметь быстро выделить для пользователя главные
+ причины высокого прогноза, например, его оценки или оценки других участников,
+ которые в данном случае повлияли сильней других.
+ Пользуясь инструментами факторного пространства, решение этой задачи находится
+ относительно легко.
+\end_layout
+
+\begin_layout Standard
+Интересной задачей является введение в систему нового пользователя.
+ Для системы и для новичка выгодно, чтобы он как можно быстрее получил полноценн
+ый сервис.
+ Это значит, что на старте необходимо провести пользователя по кратчайшему
+ пути, предложить оценить ему минимальное множество объектов, которое позволит
+ выяснить его главные свойства.
+ Здесь можно воспользоваться свойством евклидовости факторного пространства
+ – если выделить множество наиболее ортогональных между собой объектов (базис)
+ и получить для них оценки пользователя, то его профиль будет вычислен максималь
+но быстро и точно.
+\end_layout
+
+\begin_layout Standard
+Для таких вкусовых объектов как кинофильмы, общие свойства и тренды развития
+ аудитории можно оценить лишь очень эмпирически.
+ Если же сбор мнений налажен, то есть, накоплено достаточно данных, факторный
+ анализ позволяет решать эти задачи автоматически и точно.
+ <end of copypast>
+\end_layout
+
+\begin_layout Paragraph
+В данной работе предлагается перейти он неявных факторов к явным и использовать
+ их в сравнении объектов по тому же принципу, что и факторы.
+\end_layout
+
+\begin_layout Subsection
+Единицы информации
+\end_layout
+
+\begin_layout Standard
+Предлагается отказаться от понятия рейтингов или оценок, и заменить их семантиче
+скими связями между объектами «состоит из» (в смысле сущности объектов,
+ а не физического устройства вещей).
+ Каждый объект в системе рекомендаций предлагается представлять как цельную
+ 
+\emph on
+единицу информации
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Каждую единицу информации предлагается представлять в виде уникального ключа
+ (id), и множества взвешенных ссылок на другие единицы информации.
+ Например, единица информации, соответствующая книге Олдоса Хаксли «Дивный
+ новый мир», будет содержать ссылки на «Олдос Хаксли», «Книга», «Фантастика»
+ и «Антиутопия».
+ В свою очередь, единица информации «Олдос Хаксли» будет ссылаться на «Писатель».
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename pics/ii-example-1.png
+	width 50page%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Пример единицы информации
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Таким образом все объекты в системе представляют связный взвешенный граф,
+ в котором связи характеризуют внутреннее содержание объектов.
+\end_layout
+
+\begin_layout Standard
+Это позволяет не только искать наиболее интересущие пользователя объекты,
+ но и учитывать минутные желания, формализовать их в поисковый запрос.
+\end_layout
+
+\begin_layout Subsection
+Сравнение единиц информации
+\end_layout
+
+\begin_layout Standard
+Большими буквами 
+\begin_inset Formula $A$
+\end_inset
+
+, 
+\begin_inset Formula $B$
+\end_inset
+
+, 
+\begin_inset Formula $O$
+\end_inset
+
+ обозначаются объекты (Information Item)
+\end_layout
+
+\begin_layout Standard
+Каждый объект связан с множеством себе подобных объектов, причем вес связи
+ между объектами A и B будет обозначаться 
+\end_layout
+
+\begin_layout Standard
+Множество объектов, с которыми связан 
+\begin_inset Formula $A$
+\end_inset
+
+ будем так же называть его компонентами и обозначать 
+\begin_inset Formula $S_{a}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+<мат.
+ модель, формулы и картинки>
+\end_layout
+
+\begin_layout Subsubsection
+Требования к метрике
+\end_layout
+
+\begin_layout Enumerate
+Функция должна выдавать результат в процентах
+\end_layout
+
+\begin_layout Enumerate
+Функция должны выдавать 100%, если множества компонент равны и веса каждой
+ из компонент одинаковы у обоих объектов.
+\begin_inset Formula \[
+S_{a}=S_{b},w(A,O_{i})=w(B,O_{i})\ \forall\ O_{i}\in S_{a},S_{b}\Rightarrow w(A,B)=100\%\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Функция не должна выдавать 100%, если множества компонент не равны.
+\begin_inset Formula \[
+S_{a}\ne S_{b}\Rightarrow w(A,B)\ne100\%\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Функция должна выдавать 0%, если у сравниваемых объектов нет одинаковых
+ компонент
+\begin_inset Formula \[
+S_{a}\cap S_{b}=\emptyset\Rightarrow w(A,B)=0\%\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Во всех остальных случаях функция должна выдавать результат от 0% до 100%
+\end_layout
+
+\begin_layout Subsubsection
+Метрика общих подмножеств
+\end_layout
+
+\begin_layout Standard
+Для каждого объекта веса представляются произвольно, поэтому нормализуем
+ их.
+ Обозначим относительным вес 
+\begin_inset Formula \begin{equation}
+pw(A,O)=\frac{w(O,A)}{\sum_{i}^{O_{i}\in S_{a}}w(A,O_{i})}\label{eq:pw}\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Заметим, что 
+\begin_inset Formula $\sum_{i}^{O_{i}\in S_{a}}pw(A,O_{i})=100\%$
+\end_inset
+
+.
+ Можно представить каждый объект как состоящий из компонентов-долей, где
+ размер долей будет величиной нормализованной метрики 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pw"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Пусть объект 
+\begin_inset Formula $A$
+\end_inset
+
+ связан с множеством объектов 
+\begin_inset Formula $S_{a}$
+\end_inset
+
+, а объект 
+\begin_inset Formula $B$
+\end_inset
+
+ с множеством объектов 
+\begin_inset Formula $S_{b}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $S_{ab}=S_{a}\cap S_{b}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Тогда отношение общих долей к целому компоненту будет удовлетворять всем
+ условиям искомой метрики.
+\end_layout
+
+\begin_layout Subsection
+Поиск похожих объектов
+\end_layout
+
+\begin_layout Standard
+В качестве основных параметров поиска используется набор пар объект-вес.
+ Это позволяет искать не только объекты, похожие на выбранный, но и позволяет
+ произвести поиск, не создавая дополнительных "сущностей".
+ Поиск выполняется в следующих методах:
+\end_layout
+
+\begin_layout LyX-Code
+Map<InformationItem, Double> getMostLike(InformationItem item);
+\end_layout
+
+\begin_layout LyX-Code
+Map<InformationItem, Double> getMostLike(Map<InformationItem, Double> items);
+\end_layout
+
+\begin_layout Standard
+При этом
+\end_layout
+
+\begin_layout LyX-Code
+public Map<InformationItem, Double> getMostLike(InformationItem item) {
+\end_layout
+
+\begin_layout LyX-Code
+	Map<InformationItem, Double> result = getMostLike(item.getComponentsWeightsMap()
+);
+\end_layout
+
+\begin_layout LyX-Code
+	result.remove(item);
+\end_layout
+
+\begin_layout LyX-Code
+	return result;
+\end_layout
+
+\begin_layout LyX-Code
+}
+\end_layout
+
+\begin_layout Subsubsection
+Мгновенный поиск
+\end_layout
+
+\begin_layout Standard
+Текущие версии поиска никак не учитывают веса компонентов и формально используют
+ только ключи из словаря.
+ (Хотя вообще должны бы учитывать)
+\end_layout
+
+\begin_layout Enumerate
+Составляется список компнентов (ключей поиска) объекта
+\end_layout
+
+\begin_layout Enumerate
+Для каждого ключа (InformationItem) берется список всех элементов, которые
+ его содержат.
+ Они добавляются в общее множество кандидатов.
+\end_layout
+
+\begin_layout Enumerate
+Получившееся множество кандидатов ранжируется по метрике похожести и возвращаетс
+я в качестве результата.
+\end_layout
+
+\begin_layout LyX-Code
+public Map<InformationItem, Double> getMostLike(Map<InformationItem, Double>
+ items) {
+\end_layout
+
+\begin_layout LyX-Code
+	Map<InformationItem, Double> result = new HashMap<InformationItem, Double>();
+\end_layout
+
+\begin_layout LyX-Code
+	for (InformationItem component : items.keySet()) {
+\end_layout
+
+\begin_layout LyX-Code
+		for (InformationItem parent : component.getItemsContainingThis()) {
+\end_layout
+
+\begin_layout LyX-Code
+			result.put(parent, compareItemsMaps(items, parent.getComponentsWeightsMap()));
+\end_layout
+
+\begin_layout LyX-Code
+		}
+\end_layout
+
+\begin_layout LyX-Code
+	}
+\end_layout
+
+\begin_layout LyX-Code
+	return invertedSortByValue(result);
+\end_layout
+
+\begin_layout LyX-Code
+}
+\end_layout
+
+\begin_layout Subsubsection
+Кеширование
+\end_layout
+
+\begin_layout Itemize
+хранить список порекомендованного
+\end_layout
+
+\begin_layout Itemize
+объяснить, как строится список, который надо пересчитать (с приоритетом
+ даже можно!)
+\end_layout
+
+\begin_layout Subsection
+Взаимообмен информацией (диффузия)
+\end_layout
+
+\begin_layout Section
+Модель, апробация
+\end_layout
+
+\begin_layout Subsection
+Попытка сравнения с SlopeOne
+\end_layout
+
+\begin_layout Subsection
+Архитектура, скриншоты
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "1"
+key "akerlof"
+
+\end_inset
+
+ George A.
+ Akerlof.
+ The Market for "Lemons": Quality Uncertainty and the Market Mechanism //
+ The Quarterly Journal of Economics, v.84, August 1970, p.488-500
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "2"
+key "evaluating-cf-rs"
+
+\end_inset
+
+J.
+ Herlocker, J.
+ Konstan, L.
+ Terveen, and J.
+ Riedl.
+ Evaluating collaborative filtering recommender systems // ACM Translations
+ on Information Systems, Vol.
+ 22(1), 200
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "3"
+key "amazon"
+
+\end_inset
+
+G.
+ Linden, B.
+ Smith, and J.
+ York, “Amazon.com Recommendations: Item-to-Item Collaborative Filtering,”
+ IEEE Internet Computing, Jan./Feb.
+ 2003.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "4"
+key "movielens"
+
+\end_inset
+
+B.N.
+ Miller, I.
+ Albert, S.K.
+ Lam, J.A.
+ Konstan, and J.
+ Riedl,“MovieLens Unplugged: Experiences with an Occasionally Connected
+ Recommender System,” Proc.
+ Int’l Conf.
+ Intelligent User Interfaces, 2003.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "5"
+key "versifi"
+
+\end_inset
+
+D.
+ Billsus, C.A.
+ Brunk, C.
+ Evans, B.
+ Gladish, and M.
+ Pazzani,“Adaptive Interfaces for Ubiquitous Web Access,” Comm.
+ ACM, vol.
+ 45, no.
+ 5, pp.
+ 34-38, 2002.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "6"
+key "overview-rs"
+
+\end_inset
+
+Gediminas Adomavicius, and Alexander Tuzhilin, “Toward the next generation
+ of recommender systems: a survey of the state-of-the-art and possible extension
+s”, IEEE Transactions on Knowledge and Data Engineering, Vol.
+ 17, No.
+ 6, 2005 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "7"
+key "pres"
+
+\end_inset
+
+Robin van M.
+ and Maarten van S.
+ Using Content-Based Filtering for Recommendation // NetlinQ Group, Gerard
+ Brandtstraat 26-28, 1054 JK, Amsterdam, The Netherlands
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "8"
+key "content-based-example-1"
+
+\end_inset
+
+R.
+ Baeza-Yates and B.
+ Ribeiro-Neto, Modern Information Retrieval // Addison-Wesley, 1999.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "9"
+key "content-based-example-2"
+
+\end_inset
+
+G.
+ Salton, Automatic Text Processing.
+ Addison-Wesley, 1989.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "10"
+key "content-based-example-3"
+
+\end_inset
+
+N.
+ Belkin and B.
+ Croft, “Information Filtering and Information Retrieval,” Comm.
+ ACM, vol.
+ 35, no.
+ 12, pp.
+ 29-37, 1992.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+label "11"
+key "netflix-factorization"
+
+\end_inset
+
+Yehuda Kore (Yahoo Research), Robert Bell and Chris Volinsky (AT&T Labs—Research
+) “MATRIX FACTORIZATION TECHNIQUES FOR RECOMMENDER SYSTEM” Published by
+ the IEEE Computer Society 0018-9162/09/$26.00 © 2009 IEEE
+\end_layout
+
+\end_body
+\end_document
