@@ -3,6 +3,9 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\usepackage[14pt]{extsizes}
+\end_preamble
 \use_default_options true
 \language russian
 \inputencoding auto
@@ -46,19 +49,6 @@
 \end_header
 
 \begin_body
-
-\begin_layout Title
-Построение рекомендательной системы на основе тегов в качестве абстракции
- над произвольным типом данных
-\end_layout
-
-\begin_layout Author
-выполнил Чеботаев А.П.
-\begin_inset Newline newline
-\end_inset
-
-научный руководитель — Бухановский А.В.
-\end_layout
 
 \begin_layout Standard
 \begin_inset CommandInset toc
