@@ -21,17 +21,16 @@
 \spacing onehalf
 \use_hyperref false
 \papersize a4paper
-\use_geometry false
+\use_geometry true
 \use_amsmath 1
 \use_esint 1
 \cite_engine basic
 \use_bibtopic false
 \paperorientation portrait
-\leftmargin 2cm
-\topmargin 1cm
-\rightmargin 1cm
-\bottommargin 1cm
-\footskip 1cm
+\leftmargin 30mm
+\topmargin 20mm
+\rightmargin 10mm
+\bottommargin 20mm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -709,33 +708,6 @@ key "overview-rs"
 \begin_layout Itemize
 
 \emph on
-Проблема первой оценки.
-
-\emph default
- Система оценивает степень сходства товаров на основе проставленных для
- них оценок, поэтому, когда появляется новый неизвестный товар, система
- никогда его не порекомендует, пока кто-нибудь его не оценит.
- И это ведет нас к следующей проблеме.
-\end_layout
-
-\begin_layout Itemize
-
-\emph on
-Проблема избирательности внимания.
-
-\emph default
- В случае нестатичной системы, при появлении новых товаров, наблюдается
- тенденция накопления большого количества оценок для уже существующих товаров,
- и отсутствия оценок для новых/малоизвестных товаров.
- Это ведет к тому, что известные существующие товары становятся все более
- и более популярными (чаще рекомендуются, чаще получают оценку пользователей,
- и как следствие, опять чаще рекомендуются), а малоизвестные новые товары
- никогда не предлагаются пользователям.
-\end_layout
-
-\begin_layout Itemize
-
-\emph on
 Проблема неоднородности контента.
 
 \emph default
@@ -1028,6 +1000,18 @@ key "overview-rs"
  необходимых для пересчета рекомендаций для пользователя), что делает затрудните
 льным использование коллаборативных методик в системах с большим количеством
  пользователей.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Проблема первой оценки.
+
+\emph default
+ Система оценивает степень сходства товаров на основе проставленных для
+ них оценок, поэтому, когда появляется новый неизвестный товар, система
+ никогда его не порекомендует, пока кто-нибудь его не оценит.
+ И это ведет нас к следующей проблеме.
 \end_layout
 
 \begin_layout Itemize
@@ -2004,7 +1988,7 @@ key "model-based-example-2"
 
 \end_inset
 
-L.
+L.
  Getoor and M.
  Sahami, “Using Probabilistic Relational Modelsfor Collaborative Filtering,”
  Proc.
@@ -2066,7 +2050,7 @@ key "ontological-rs"
 
 \end_inset
 
-Ontological User Profiling in Recommender Systems STUART E.
+Ontological User Profiling in Recommender Systems STUART E.
  MIDDLETON, NIGEL R.
  SHADBOLT, and DAVID C.
  DE ROURE University of Southampton
