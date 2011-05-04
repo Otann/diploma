@@ -5,6 +5,7 @@
 \textclass article
 \begin_preamble
 \usepackage[14pt]{extsizes}
+\usepackage{indentfirst}
 \end_preamble
 \use_default_options true
 \language russian
@@ -1594,7 +1595,7 @@ todo: картинка с дольками pie-chart.
  условиям искомой метрики.
  
 \begin_inset Formula \[
-intersec(a,b)=\sum_{o_{i}\in S_{a}\cap S_{b}}\min(pw(a,o_{i}),pw(b,o_{i})\]
+intersec(a,b)=\sum_{o_{i}\in S_{a}\cap S_{b}}\min(pw(a,o_{i}),pw(b,o_{i}))\]
 
 \end_inset
 
