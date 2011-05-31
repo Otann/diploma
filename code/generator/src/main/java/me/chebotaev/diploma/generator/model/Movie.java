@@ -6,14 +6,22 @@ import java.util.Map;
 public class Movie {
 
     long id;
-    Map<Tag, Double> tags = new HashMap<Tag, Double>();
+    Map<Tag, Integer> tags = new HashMap<Tag, Integer>();
 
     public Movie(long id) {
         this.id = id;
     }
 
-    public void addTag(Tag tag, Double weight) {
+    public long getId() {
+        return id;
+    }
+
+    public void addTag(Tag tag, Integer weight) {
         tags.put(tag, weight);
+    }
+
+    public Map<Tag, Integer> getTags() {
+        return tags;
     }
 
     @Override

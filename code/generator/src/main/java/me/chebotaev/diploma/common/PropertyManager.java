@@ -17,7 +17,7 @@ public class PropertyManager {
 
         MOVIES_PER_TAG_PERCENTAGE("generator.movies-per-tag.percentage"),
 
-        MOODS_COUNT("generator.movies-per-tag.percentage"),
+        MOODS_COUNT("generator.moods.count"),
 
         RATING_MIN("generator.rating.min"),
         RATING_MAX("generator.rating.max");

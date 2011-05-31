@@ -6,17 +6,21 @@ import java.util.Set;
 public class Tag {
 
     static Set<Tag> all = new HashSet<Tag>();
-    static long newId = 1;
+    static int newId = 1;
 
-    long id;
+    int id;
     String name = null;
 
-    public Tag(long id) {
+    public Tag(int id) {
         this.id = id;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {

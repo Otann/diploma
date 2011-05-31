@@ -19,6 +19,12 @@ public class RandomGenerator {
     }
 
     public static int get(int min, int max) {
-        return min + randomGenerator.nextInt(max - min);
+        if (min == max) {
+            return min;
+        } else if (max < min) {
+            throw new IllegalArgumentException("Wrong interval");
+        } else {
+            return min + randomGenerator.nextInt(max - min);
+        }
     }
 }

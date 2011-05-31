@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ii-crawl" default="generate" basedir=".">
+
+    <target name="generate">
+        <echo>
+            Generating files
+        </echo>
+
+        <java classname="me.chebotaev.diploma.GeneratorApp" fork="true" failonerror="true" maxmemory="512m">
+            <classpath>
+                <fileset dir="./target">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+
+        <echo>
+            Fuck yeah!
+        </echo>
+    </target>
+
+</project>

@@ -18,7 +18,6 @@ public class Generator {
     int moviesCount; // Movies count
     int tagsCount; // Tags count
 
-    int tagsPerMovie;    // tags per movie average
     int tagsPerMovieMin; // tags per movie min
     int tagsPerMovieMax; // tags per movie max
     int moviesPerTag;    // movies per tag
@@ -62,12 +61,11 @@ public class Generator {
 
         tagsPerMovieMax = PropertyManager.getInt(Property.TAGS_PER_MOVIE_MAX);
         tagsPerMovieMin = PropertyManager.getInt(Property.TAGS_PER_MOVIE_MIN);
-        tagsPerMovie = (tagsPerMovieMax - tagsPerMovieMin) / 2;
 
         int tpPercentage = PropertyManager.getInt(Property.MOVIES_PER_TAG_PERCENTAGE);
         moviesPerTag = moviesCount * tpPercentage / 100;
 
-        tagsCount = moviesCount * tagsPerMovie / moviesPerTag;
+        tagsCount = moviesCount * tagsPerMovieMax / moviesPerTag + 1;
 
         usersCount = PropertyManager.getInt(Property.USERS_COUNT);
         moviesPerUser = PropertyManager.getInt(Property.USR_RATED_MOVIES);
@@ -79,13 +77,13 @@ public class Generator {
     }
     
     private void initData() {
-        for (int i = 1; i <= moviesCount; i++)
+        for (int i = 0; i < moviesCount; i++)
             movies.put(i, new Movie(i));
 
-        for (int i = 1; i <= tagsCount; i++)
+        for (int i = 0; i < tagsCount; i++)
             tags.put(i, new Tag(i));
 
-        for (int i = 1; i <= usersCount; i++){
+        for (int i = 0; i < usersCount; i++){
             users.put(i, new User(i));
         }
     }
@@ -125,7 +123,7 @@ public class Generator {
                     unusedTagsValues.put(tag, unusedValue - 1);
                 }
 
-                movie.addTag(null, 1.0); //TODO randomize weight of tag in movie
+                movie.addTag(tag, 1);
             }
         }
     }

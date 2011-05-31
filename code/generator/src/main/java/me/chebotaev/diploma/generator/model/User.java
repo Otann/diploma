@@ -16,6 +16,10 @@ public class User {
         this.id = id;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public void addMovieRating(Movie movie, int moodId, int value) {
         Rating rating = movies.get(movie);
         if (rating == null) {
