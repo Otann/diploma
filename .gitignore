@@ -6,6 +6,9 @@
 .idea/
 target/
 
+# Project data files #
+######################
+*.iidata
 
 # Compiled source #
 ###################

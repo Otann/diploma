@@ -1,6 +1,7 @@
 package me.chebotaev.diploma;
 
 import me.chebotaev.diploma.common.PropertyManager;
+import me.chebotaev.diploma.common.PropertyManager.Property;
 import me.chebotaev.diploma.generator.Generator;
 import me.chebotaev.diploma.generator.model.Movie;
 import me.chebotaev.diploma.generator.model.Rating;
@@ -48,7 +49,8 @@ public class GeneratorApp {
 
         System.out.println("Writing data about movies");
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter("movies_with_tags"));
+        String filename = PropertyManager.get(Property.MOVIES_FILENAME);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
         for(Movie movie : generator.getMovies()) {
             StringBuilder sb = new StringBuilder();
 
@@ -83,7 +85,7 @@ public class GeneratorApp {
 
             System.out.println("Writing data about ratings for mood" + moodId);
 
-            String filename = "ratings_for_mood_" + moodId;
+            String filename = String.format(PropertyManager.get(Property.RATINGS_FILENAME_FORMAT), moodId);
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 
             for (User user : generator.getUsers()) {

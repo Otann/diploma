@@ -20,7 +20,10 @@ public class PropertyManager {
         MOODS_COUNT("generator.moods.count"),
 
         RATING_MIN("generator.rating.min"),
-        RATING_MAX("generator.rating.max");
+        RATING_MAX("generator.rating.max"),
+
+        MOVIES_FILENAME("writer.filename.movies"),
+        RATINGS_FILENAME_FORMAT("writer.filename.ratings-template");
 
         String value;
 
