@@ -75,7 +75,7 @@ public class Generator {
         ratingMin = PropertyManager.getInt(Property.RATING_MIN);
         ratingMax = PropertyManager.getInt(Property.RATING_MAX);
     }
-    
+
     private void initData() {
         for (int i = 0; i < moviesCount; i++)
             movies.put(i, new Movie(i));
@@ -132,32 +132,31 @@ public class Generator {
 
         // for all users
         for (User user : users.values()) {
+            for (int m = 0; m < moviesPerUser; m++) {
+                // find a movie
+                Movie movie = null;
+                boolean found = false;
+                while (!found) {
+                    int movieId = RandomGenerator.get(moviesCount);
+                    movie = movies.get(movieId);
+                    if (!user.getMovies().containsKey(movie))
+                        found = true;
+                }
 
-            // find a movie
-            Movie movie = null;
-            boolean found = false;
-            while (!found) {
-                int movieId = RandomGenerator.get(moviesCount);
-                movie = movies.get(movieId);
-                if (!user.getMovies().containsKey(movie))
-                    found = true;
-            }
+                // generate preferred id
+                int moodId = RandomGenerator.get(moodsCount);
+                // generate rating
+                int rating = RandomGenerator.get(ratingMin, ratingMax);
 
-            // generate preferred id
-            int moodId = RandomGenerator.get(moodsCount);
-            // generate rating
-            int rating = RandomGenerator.get(ratingMin, ratingMax);
-
-            // for other movies rating will be randomly less
-            for (int i = 0; i < moodsCount; i++) {
-                if (i == moodId) {
-                    user.addMovieRating(movie, i, rating);
-                } else {
-                    user.addMovieRating(movie, i, RandomGenerator.get(ratingMin, rating));
+                // for other movies rating will be randomly less
+                for (int i = 0; i < moodsCount; i++) {
+                    if (i == moodId) {
+                        user.addMovieRating(movie, i, rating);
+                    } else {
+                        user.addMovieRating(movie, i, RandomGenerator.get(ratingMin, rating));
+                    }
                 }
             }
-
-
         }
 
     }

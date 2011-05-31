@@ -4,7 +4,7 @@ package me.chebotaev.diploma;
  * Hello world!
  *
  */
-public class App 
+public class BenchmarkApp
 {
     public static void main( String[] args )
     {

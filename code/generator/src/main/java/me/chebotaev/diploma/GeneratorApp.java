@@ -65,7 +65,9 @@ public class GeneratorApp {
             sb.append('\n');
 
             writer.write(sb.toString());
+            writer.flush();
         }
+        writer.close();
     }
 
     /**
@@ -83,7 +85,7 @@ public class GeneratorApp {
         int moodsCount = PropertyManager.getInt(PropertyManager.Property.MOODS_COUNT);
         for (int moodId = 0; moodId < moodsCount; moodId++) {
 
-            System.out.println("Writing data about ratings for mood" + moodId);
+            System.out.println("Writing data about ratings for mood #" + moodId);
 
             String filename = String.format(PropertyManager.get(Property.RATINGS_FILENAME_FORMAT), moodId);
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
@@ -101,10 +103,11 @@ public class GeneratorApp {
                     sb.append(' ');
                 }
                 sb.append('\n');
+
                 writer.write(sb.toString());
+                writer.flush();
             }
-
-
+            writer.close();
         }
 
     }
