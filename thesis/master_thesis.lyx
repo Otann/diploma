@@ -536,7 +536,57 @@ key "overview-rs"
 \end_inset
 
 .
- Например, в системе, рекомендующей фильмы, для того, чтобы рекомендовать
+ Схематичное изображение этого принципа представлено на 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:content-based-scheme"
+
+\end_inset
+
+, где зеленым кругом обозначен потребитель, красными товары с присвоенной
+ функцией полезности, а белым кругом с красным контуром товар, для которого
+ строится предположительная оценка.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename pics/circles-content-based.png
+	width 75page%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Принцип работы контентных методик.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:content-based-scheme"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Например, в системе, рекомендующей фильмы, для того, чтобы рекомендовать
  фильмы потребителю 
 \begin_inset Formula $c$
 \end_inset
@@ -588,52 +638,6 @@ key "pres"
  для выбранного пользователя) страниц внутри одного сайта.
  Разделяются понятия навигационных страниц и страниц-данных.
  (Страницы так же могут иметь смешанный тип).
- Общая структура представлена на 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Структура-системы-PRES"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename pics/content-based.png
-	width 50page%
-
-\end_inset
-
-
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Структура системы PRES
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Структура-системы-PRES"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -709,7 +713,7 @@ key "overview-rs"
 \end_layout
 
 \begin_layout Subsubsection
-Коллаборативные методики
+Методики совместной фильтрации
 \end_layout
 
 \begin_layout Standard
@@ -760,6 +764,67 @@ key "overview-rs"
 \end_inset
 
 .
+ Этот принцип схематично изображен на 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:collaborative-scheme"
+
+\end_inset
+
+, где зеленым кругом обозначен пользователь, а белым кругом с зеленым контуром
+ 
+\begin_inset Quotes fld
+\end_inset
+
+похожий
+\begin_inset Quotes frd
+\end_inset
+
+ на него пользователь.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename pics/circles-collaborative.png
+	width 75page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Принцип работы методик совместной фильтрации.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:collaborative-scheme"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1164,13 +1229,22 @@ status open
 \end_layout
 
 \begin_layout Standard
-Для решения большинства из этих проблем, предлагается выделить из объектов
- единицу смысла и использовать новое представление данных, а вместе с ним
- и новый алгоритм для рекомендаций.
+Существующие методы основной своей целью ставят предсказание точного значения
+ функции полезности и дальнейшее ее использование для построения рекомендаций.
+ Это вносит ограничение в функциональную часть рекомендательных систем.
+ Для решения этих проблем предлагается переформулировать задачу рекомендательных
+ систем и ограничиться лишь приближенным значением этой функции, формальные
+ требования для которой будут представлены в следующей главе.
+ Так же предлагается выделить из объектов единицу смысла и использовать
+ новое представление данных, а вместе с ним и новый алгоритм для рекомендаций.Это
+ позволит существенно расширить функциональность рекомендательных систем
+ и позволит нескольким ркомендательным системам, построенным по описанному
+ принципу быть совместимыми между собой независимо от конкретной реализации
+ функции полезности объектов.
 \end_layout
 
 \begin_layout Section
-Построение РС на основе «Единиц Информации»
+Метод вложенных тегов
 \end_layout
 
 \begin_layout Standard
@@ -1228,6 +1302,62 @@ u(c,s)=q_{s}^{T}p_{c}\]
 \end_layout
 
 \begin_layout Standard
+Таким образом можно получить оценку функции 
+\begin_inset Formula $u(c,s)$
+\end_inset
+
+ для любой парф пользователь-объект.
+ Этот подход продемонстрирован на 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:hidden-factors"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename pics/circles-factors.png
+	width 75page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Принцип работы метода скрытых факторов.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:hidden-factors"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 В процессе работы над своими алгоритмами различные участники конкурса пришли
  к общему выводу, что сингулярное разложение матрицы оченок позволяет получить
  скрытые факторы для матрицы оценок.
@@ -1265,19 +1395,20 @@ key "netflix-factorization"
 \end_layout
 
 \begin_layout Subsection
-Единицы информации
+Сущности
 \end_layout
 
 \begin_layout Standard
-Предлагается отказаться от понятия рейтингов или оценок, и заменить их семантиче
-скими связями между объектами «состоит из» (в смысле сущности объектов,
- а не физического устройства вещей).
- Каждый объект в системе рекомендаций предлагается представлять как цельную
- 
+Каждую сущность (пользователи и объекты) в системе рекомендаций предлагается
+ представлять как цельную 
 \emph on
 единицу информации
 \emph default
-.
+, имеющую связи с другими единицами информации.
+ Явными факторами, используемыми для сравнения будут являться сами единицы
+ информации, которые так же, кроме пользователей и объектов могут быть просто
+ ключевыми словами или характеристиками (которые могу сылаться на более
+ детальные характеристики, раскрывающие их сущность.)
 \end_layout
 
 \begin_layout Standard
@@ -1293,7 +1424,7 @@ key "netflix-factorization"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -1326,10 +1457,83 @@ status collapsed
 \begin_layout Standard
 Таким образом все объекты в системе представляют связный взвешенный граф,
  в котором связи характеризуют внутреннее содержание объектов.
+ Это позволяет перейти от функции полезности, которая подразумевает наличие
+ двух разных сущностей, к функции 
+\begin_inset Quotes fld
+\end_inset
+
+похожести
+\begin_inset Quotes frd
+\end_inset
+
+, которая будет отражать 
+\begin_inset Quotes fld
+\end_inset
+
+схожесть
+\begin_inset Quotes frd
+\end_inset
+
+ двух различных единиц информации.
  Такое представление позволяет трактовать пользователей и объекты как единый
  тип, а процедура рекомендации сводится к поиску похожих объектов.
- Это позволяет не только предполагать, что больше понравится пользователю,
- но и сравнивать объекты между собой.
+ Это в свою очередь позволит использовать такой тип данных как для контентных
+ методик (сравнение объектов между собой), так и для коллаборативных (сравнение
+ пользователей).
+ Так, например, на 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ii-circles"
+
+\end_inset
+
+ представлен пример того, как в профиль пользователя (зеленый корневой узел)
+ может входить ссылка на объект (красный узел), другого пользователя (зеленый
+ дочерний узел) или иные характеристики.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename pics/ii-example-2.png
+	width 75page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Пример единицы информации
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ii-circles"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -1337,8 +1541,12 @@ status collapsed
 \end_layout
 
 \begin_layout Standard
-Такой подход позволяет не только получить рекомендуемые объекты для пользователя
-, но и разделить их на классы, сравнивая с тем или иным 
+Так как профиль пользователя характеризуется ссылками на другие единицы
+ информации, а функция сравнения работает на основе этих ссылок, то временно
+ изменив вес одной из характеристик, или добавив новую характеристику, можно
+ добаться фильтрации рекомендованных объектов.
+ Такой подход позволяет не только получить рекомендуемые объекты для пользовател
+я, но и разделить их на классы, сравнивая с тем или иным 
 \begin_inset Quotes fld
 \end_inset
 
@@ -1363,30 +1571,32 @@ status collapsed
 \begin_inset Quotes frd
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-todo: Упомянть работу 
+.
+ Похожий подход использовался в работе 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "meta-rs"
 
 \end_inset
 
- от MovieLens, в которой используются уточняющие запросы 
-\begin_inset Quotes fld
-\end_inset
-
-больше того, меньеше этого
-\begin_inset Quotes frd
-\end_inset
-
-
+ исследовательской группы MovieLens, в которой используются уточняющие запросы
+ формулировались в виде ограниченного набора взвешенных характеричтик для
+ фильмов.
+ Изменяя значимость и вес характеристик можно изменять порядок в списке
+ рекомендованных фильмов.
+ Разница с предлагаемым подходом в том, что список этих характеристик составлялс
+я независимо от объектов и требовал ручной оценки каждого объекта по каждой
+ характеристики.
 \end_layout
 
 \begin_layout Subsection
 Сравнение единиц информации
+\end_layout
+
+\begin_layout Standard
+Сравнение единиц информации в предлагаемом подходе должно быть основанно
+ на внутреннем содержании объекта, его связях с другими объектами и весах
+ этих связей.
 \end_layout
 
 \begin_layout Standard
@@ -1476,7 +1686,17 @@ todo: описать формально условные обозначения,
 \end_layout
 
 \begin_layout Enumerate
-Функция должна выдавать результат в процентах
+Функция должна выдавать результат в процентах 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
