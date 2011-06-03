@@ -23,7 +23,8 @@ public class PropertyManager {
         RATING_MAX("generator.rating.max"),
 
         MOVIES_FILENAME("writer.filename.movies"),
-        RATINGS_FILENAME_FORMAT("writer.filename.ratings-template");
+        RATINGS_FILENAME_AVERAGE("writer.filename.ratings-average"),
+        RATINGS_FILENAME_MOOD("writer.filename.ratings-mood");
 
         String value;
 

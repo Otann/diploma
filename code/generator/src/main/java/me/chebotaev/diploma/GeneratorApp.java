@@ -11,7 +11,6 @@ import me.chebotaev.diploma.generator.model.User;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Map;
 
 /**
@@ -82,12 +81,14 @@ public class GeneratorApp {
 
         System.out.println("Writing data about ratings");
 
+
+
         int moodsCount = PropertyManager.getInt(PropertyManager.Property.MOODS_COUNT);
         for (int moodId = 0; moodId < moodsCount; moodId++) {
 
             System.out.println("Writing data about ratings for mood #" + moodId);
 
-            String filename = String.format(PropertyManager.get(Property.RATINGS_FILENAME_FORMAT), moodId);
+            String filename = String.format(PropertyManager.get(Property.RATINGS_FILENAME_MOOD), moodId);
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 
             for (User user : generator.getUsers()) {
@@ -110,6 +111,38 @@ public class GeneratorApp {
             writer.close();
         }
 
+        String filename = PropertyManager.get(Property.RATINGS_FILENAME_AVERAGE);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+
+        System.out.println("Writing data about ratings for average mood");
+
+        for (User user : generator.getUsers()) {
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(user.getId());
+            sb.append(' ');
+
+            for (Map.Entry<Movie, Rating> entry : user.getMovies().entrySet()) {
+                sb.append(entry.getKey().getId());
+                sb.append(' ');
+
+                double rating = 0;
+                for(int moodId = 0; moodId < moodsCount; moodId++) {
+                    rating += entry.getValue().getValue(moodId);
+                }
+                rating /= moodsCount;
+
+                sb.append(rating);
+                sb.append(' ');
+            }
+            sb.append('\n');
+
+            writer.write(sb.toString());
+            writer.flush();
+        }
+        writer.close();
+
     }
+
 
 }
